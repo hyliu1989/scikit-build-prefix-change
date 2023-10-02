@@ -1,0 +1,61 @@
+[build-system]
+requires = ["scikit-build-core>=0.5.0", "pybind11", "setuptools>=43.0.0"]
+build-backend = "scikit_build_core.build"
+
+[tool.scikit-build]
+wheel.expand-macos-universal-tags = true
+# Since the package to install has a name different from the `name` under [project],
+# we have to specify where to look for the Python package.
+wheel.packages = ["src/mytest"]
+# The build directory. Defaults to a temporary directory, but can be set.
+build-dir = "build_folder_for_inspect"
+
+[tool.scikit-build.cmake]
+# The minimum version of CMake to use. If CMake is not present on the system or
+# is older than this, it will be downloaded via PyPI if possible. An empty
+# string will disable this check.
+minimum-version = "3.10"
+
+# A list of args to pass to CMake when configuring the project. Setting this in
+# config or envvar will override toml. See also ``cmake.define``.
+args = []
+
+# Verbose printout when building.
+verbose = false
+
+# The build type to use when building the project. Valid options are: "Debug",
+# "Release", "RelWithDebInfo", "MinSizeRel", "", etc.
+build-type = "Release"
+
+# The source directory to use when building the project. Currently only affects
+# the native builder (not the setuptools plugin).
+source-dir = "cpp_src"  # CMakeLists.txt in here will be the one used by skbuild.
+
+# The build targets to use when building the project. Empty builds the default
+# target.
+targets = []
+
+# A table of defines to pass to CMake when configuring the project. Additive.
+[tool.scikit-build.cmake.define]
+EXAMPLE_INSTALLATION = true
+EXAMPLE_RELATIVE_LOCATION = "mytest"
+CMAKE_INSTALL_PREFIX = "install_folder_for_inspect"
+CMAKE_INSTALL_RPATH = "$ORIGIN"
+
+[project]
+name = "skbuild-prefix-example"
+version = "0.1.0"
+description="A simple test to see how the files are installed and where they go."
+readme = "README.md"
+authors = [{ name = "My Name", email = "me@email.com" }]
+requires-python = ">=3.8"
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  # "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  # "Operating System :: OS Independent",
+]
